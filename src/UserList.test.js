@@ -8,7 +8,7 @@ test("render one row per user", () => {
     { name: "jane", email: "jane@jane.com" },
     { name: "same", email: "sam@sam.com" },
   ];
-  const { container } = render(<UserList users={users} />);
+  render(<UserList users={users} />);
 
   //Find all the rows in the table
   const rows = within(screen.getByTestId("users")).getAllByRole("row");
@@ -16,4 +16,17 @@ test("render one row per user", () => {
   //Assertion:correct number of rows in the table
   expect(rows).toHaveLength(2);
 });
-test("render the email and name of each user", () => {});
+test("render the email and name of each user", () => {
+  const users = [
+    { name: "jane", email: "jane@jane.com" },
+    { name: "same", email: "sam@sam.com" },
+  ];
+  render(<UserList users={users} />);
+
+  for (const user of users) {
+    const name = screen.getByRole("cell", { name: user.name });
+    const email = screen.getByRole("cell", { name: user.email });
+    expect(name).toBeInTheDocument();
+    expect(email).toBeInTheDocument();
+  }
+});
